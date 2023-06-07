@@ -225,7 +225,7 @@ def featurize_melspec(f=None, offset=None, duration=None, y=None, sr=None,
 
     if augment_fn is not None:
         y = augment_fn(y)
-    S = librosa.feature.melspectrogram(y, sr, hop_length=hop_length).T
+    S = librosa.feature.melspectrogram(y=y, sr=sr, hop_length=hop_length).T
     S = librosa.amplitude_to_db(S, ref=np.max)
     if spec_augment_fn is not None:
         S = spec_augment_fn(S)
@@ -405,7 +405,7 @@ def random_noise(y, sr, noise_signals, min_snr=6, max_snr=30, prob=1.):
         return combined_sig
     else:
         return y
-    
+
 # Sample rate must be the same between signal and IR
 # Based on https://github.com/mravanelli/pySpeechRev
 def conv_reverb(signal_clean, IR):
@@ -418,7 +418,7 @@ def conv_reverb(signal_clean, IR):
             e[n:] = 0.0
             e[:n] = xs[-n:]
         return e
-    
+
     # Signal normalization
     signal_clean=signal_clean/np.max(np.abs(signal_clean))
 
