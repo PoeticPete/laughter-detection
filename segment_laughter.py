@@ -28,6 +28,9 @@ import pandas as pd
 import torch_utils
 from tqdm import tqdm
 
+def append_to_file(s):
+    with open('results.csv','a') as fd:
+        fd.write(s)
 
 def run():
     sample_rate = 8000
@@ -149,6 +152,9 @@ def run():
             tg.add_tier(laughs_tier)
             fname = os.path.splitext(os.path.basename(audio_path))[0]
             tgt.write_to_file(tg, os.path.join(output_dir, fname + "_laughter.TextGrid"))
+
+            for laugh in laughs:
+                append_to_file(f'{fname},{laugh["start"]},{laugh["end"]}\n')
 
             print(
                 "Saved laughter segments in {}".format(
